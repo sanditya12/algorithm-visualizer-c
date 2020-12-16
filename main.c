@@ -1,61 +1,131 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <time.h>
 
-void quickSort(int arr[], int high, int low);
+void quickSort(int arr[], int high, int low, int size);
 void printBar(int value);
-
+void generateArray(int **arr, int size);
+void checkErrMalloc(int *ptr);
+void printArray(int *arr, int size, int counterPos);
+void swap(int *n1, int *n2);
+void bubbleSort(int arr[], int size);
+/*function prototype*/
 int main()
 {
-   int arr[7] = {2, 10, 5, 5, 3, 3, 7};
-   quickSort(arr, 7, 0);
+   int size;
+   printf("\nEnter Size of Array : ");
+   scanf("%d", &size);
+
+   int *array = (int *)malloc(size * sizeof(int));
+   checkErrMalloc(array);
+
+   generateArray(&array, size);
+   bubbleSort(array, size);
+   // printArray(array, size);
 
    return 0;
 }
 
-void quickSort(int arr[], int high, int low)
+void generateArray(int **arrPtr, int size)
+{
+   int *arr = *arrPtr;
+   srand(time(NULL));
+   int i;
+   printf("\n[  ");
+   for (i = 0; i < size; i++)
+   {
+      arr[i] = 1 + (rand() % size);
+      printf("%d  ", arr[i]);
+   }
+   printf("]\n");
+   printf("\nPress Anything to Continue");
+   getch();
+}
+
+void quickSort(int arr[], int high, int low, int size)
 {
    int i;
-   int p = high - 1;
-   int temp;
+   int pivot = high - 1;
    int swapIndex = 0;
-   // printf("%d   %d\n", arr[low], arr[p]);
-
-   if (low < p)
+   system("cls");
+   if (low < pivot)
    {
-      system("cls");
       for (i = 0; i < high; i++)
       {
-
-         if (arr[i] < arr[p])
+         if (arr[i] < arr[pivot])
          {
-            temp = arr[i];
-            arr[i] = arr[swapIndex];
-            arr[swapIndex] = temp;
+            swap(&arr[i], &arr[swapIndex]);
             swapIndex++;
          }
       }
-      temp = arr[swapIndex];
-      arr[swapIndex] = arr[p];
-      arr[p] = temp;
-      for (i = 0; i < 7; i++)
+      swap(&arr[pivot], &arr[swapIndex]);
+      // printArray(arr, size);
+      quickSort(arr, swapIndex, low, size);
+      quickSort(arr, high, swapIndex + 1, size);
+   }
+}
+
+void bubbleSort(int arr[], int size)
+{
+   int i, j;
+   for (i = 0; i < size - 1; i++)
+   {
+      for (j = 0; j < size - 1 - i; j++)
+      {
+         system("cls");
+         printArray(arr, size, j);
+         if (arr[j] > arr[j + 1])
+         {
+            swap(&arr[j], &arr[j + 1]);
+         }
+      }
+   }
+}
+
+void printArray(int *arr, int size, int counterPos)
+{
+   int i; /*counter*/
+   for (i = 0; i < size; i++)
+   {
+      if (i == counterPos)
+      {
+         printf("\033[1;32m");
+         printBar(arr[i]);
+         printf("\033[0m");
+      }
+      else
       {
          printBar(arr[i]);
       }
-      printf("\nPress Anything to Continue");
-      getch();
-
-      quickSort(arr, swapIndex, low);
-      quickSort(arr, high, swapIndex + 1);
    }
+   printf("\nPress Anything to Continue");
+   getch();
 }
 
 void printBar(int value)
 {
-   int i;
+   // printf("%3d", value);
+   int i; /*counter*/
    for (i = 0; i < value; i++)
    {
       printf("|");
    }
-   printf("\t\t\t%3d\n", value);
+   printf("\n");
+}
+
+void swap(int *n1, int *n2)
+{
+   int temp;
+   temp = *n1;
+   *n1 = *n2;
+   *n2 = temp;
+}
+void checkErrMalloc(int *ptr)
+{
+   if (ptr == NULL)
+   {
+      printf("\nERROR! MEMORY CANNOT BE ALLOCATED");
+      exit(0);
+   }
 }
