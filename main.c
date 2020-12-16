@@ -3,13 +3,23 @@
 #include <conio.h>
 #include <time.h>
 
+typedef struct color
+{
+   int redPos;
+   int greenPos;
+   int bluePos;
+} Color;
+
+#define false -1
+
 void quickSort(int arr[], int high, int low, int size);
 void printBar(int value);
 void generateArray(int **arr, int size);
 void checkErrMalloc(int *ptr);
-void printArray(int *arr, int size, int counterPos);
+void printArray(int *arr, int size, Color *Indices);
 void swap(int *n1, int *n2);
 void bubbleSort(int arr[], int size);
+void addColor(Color *Indices, int index);
 /*function prototype*/
 int main()
 {
@@ -69,12 +79,16 @@ void quickSort(int arr[], int high, int low, int size)
 void bubbleSort(int arr[], int size)
 {
    int i, j;
+   Color indices;
    for (i = 0; i < size - 1; i++)
    {
       for (j = 0; j < size - 1 - i; j++)
       {
          system("cls");
-         printArray(arr, size, j);
+         indices.bluePos = j;
+         indices.greenPos = size - i == 2 ? 0 : size - i;
+         printf("\nindices.greenPos = %d, i = %d\n", indices.greenPos, i);
+         printArray(arr, size, &indices);
          if (arr[j] > arr[j + 1])
          {
             swap(&arr[j], &arr[j + 1]);
@@ -83,24 +97,62 @@ void bubbleSort(int arr[], int size)
    }
 }
 
-void printArray(int *arr, int size, int counterPos)
+// void insertionSort(int arr[], int size)
+// {
+//    int i, j;
+//    int key;
+//    // printf("%d   %d\n", arr[low], arr[p]);
+
+//    for (i = 1; i < size; i++)
+//    {
+//       key = arr[i];
+//       j = i - 1;
+
+//       while (j >= 0 && arr[j] < key)
+//       {
+//          arr[j + 1] = arr[j];
+//          j = j - 1;
+//       }
+//       arr[j + 1] = key;
+//    }
+// }
+
+void printArray(int *arr, int size, Color *Indices)
 {
+
    int i; /*counter*/
    for (i = 0; i < size; i++)
    {
-      if (i == counterPos)
+      addColor(Indices, i);
+      printBar(arr[i]);
+      if (i < Indices->greenPos)
       {
-         printf("\033[1;32m");
-         printBar(arr[i]);
          printf("\033[0m");
       }
-      else
-      {
-         printBar(arr[i]);
-      }
    }
+   printf("\033[0m");
    printf("\nPress Anything to Continue");
    getch();
+}
+
+void addColor(Color *Indices, int index)
+{
+   // if (index == false)
+   // {
+   //    printf("\033[0m");
+   // }
+   if (index == Indices->redPos)
+   {
+      printf("\033[1;31m");
+   }
+   if (index == Indices->bluePos)
+   {
+      printf("\033[1;34m");
+   }
+   if (index == Indices->greenPos)
+   {
+      printf("\033[1;32m");
+   }
 }
 
 void printBar(int value)
@@ -121,6 +173,7 @@ void swap(int *n1, int *n2)
    *n1 = *n2;
    *n2 = temp;
 }
+
 void checkErrMalloc(int *ptr)
 {
    if (ptr == NULL)
