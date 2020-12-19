@@ -11,6 +11,7 @@ typedef struct color
 } Color;
 
 void quickSort(int arr[], int high, int low, int size);
+void printQuickSort(int arr[], int size);
 void printBar(int value);
 void generateArray(int **arr, int size);
 void checkErrMalloc(int *ptr);
@@ -32,9 +33,9 @@ int main()
    checkErrMalloc(array);
 
    generateArray(&array, size);
-   insertionSort(array, size);
+   // insertionSort(array, size);
    // bubbleSort(array, size);
-   // printArray(array, size);
+   quickSort(array, size - 1, 0, size);
 
    return 0;
 }
@@ -58,24 +59,38 @@ void generateArray(int **arrPtr, int size)
 void quickSort(int arr[], int high, int low, int size)
 {
    int i;
-   int pivot = high - 1;
-   int swapIndex = 0;
+   int pivot = arr[high];
+   int swapIndex = low - 1;
    system("cls");
-   if (low < pivot)
+   if (low < high)
    {
-      for (i = 0; i < high; i++)
+      for (i = low; i < high; i++)
       {
-         if (arr[i] < arr[pivot])
+         if (arr[i] <= pivot)
          {
-            swap(&arr[i], &arr[swapIndex]);
             swapIndex++;
+            swap(&arr[i], &arr[swapIndex]);
+            printQuickSort(arr, size);
+            system("cls");
          }
       }
-      swap(&arr[pivot], &arr[swapIndex]);
-      // printArray(arr, size);
+      swap(&arr[high], &arr[swapIndex + 1]);
+      printQuickSort(arr, size);
       quickSort(arr, swapIndex, low, size);
-      quickSort(arr, high, swapIndex + 1, size);
+      quickSort(arr, high, swapIndex + 2, size);
    }
+}
+void printQuickSort(int arr[], int size)
+{
+   int i, j;
+   for (i = 0; i < size; i++)
+   {
+      printBar(arr[i]);
+      printf("\033[0m");
+   }
+   printf("\033[0m");
+   printf("\nPress Anything to Continue");
+   getch();
 }
 
 void bubbleSort(int arr[], int size)
@@ -136,16 +151,16 @@ void insertionSort(int arr[], int size)
       while (j >= 0 && arr[j] > key)
       {
 
-         indices.redPos = i;
-         indices.bluePos = j;
+         indices.greenPos = i;
+         indices.redPos = j;
          printInsertionSort(arr, size, &indices);
          system("cls");
-         arr[j + 1] = arr[j];
+         swap(&arr[j + 1], &arr[j]);
          j = j - 1;
       }
-      arr[j + 1] = key;
-      indices.redPos = i;
-      indices.bluePos = j;
+      // indices.redPos = i;
+      indices.redPos = j;
+
       printInsertionSort(arr, size, &indices);
    }
 }
@@ -155,6 +170,7 @@ void printInsertionSort(int arr[], int size, Color *indices)
    int i, j;
    for (i = 0; i < size; i++)
    {
+
       addColor(indices, i);
       printBar(arr[i]);
       printf("\033[0m");
