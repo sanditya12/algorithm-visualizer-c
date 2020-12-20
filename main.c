@@ -66,6 +66,7 @@ int main()
             break;
          }
       }
+      free(array);
    }
    // insertionSort(array, size);
    // bubbleSort(array, size);

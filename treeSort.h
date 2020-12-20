@@ -53,10 +53,13 @@ void treeSort(int arr[], int size)
       printArray(arr, size, i);
       printf("\nThe Tree Diagram :\n");
       printByLevel(rootPtr);
+      printf("\nPress Anything to Continue");
       getch();
    }
    printf("Using InOrder Traversal, the Sorted Array is,\n");
    traverseInOrder(rootPtr);
+   printf("\nPress Anything to Continue");
+   getch();
 }
 
 void printArray(int arr[], int size, int currentIndex)
