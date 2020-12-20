@@ -28,7 +28,7 @@ void insert(TreeNodePtr *treePtr, int data);
 void enqueue(QueueNodePtr *headPtr, QueueNodePtr *tailPtr, TreeNodePtr data);
 void printSpace(int amount);
 void traverseInOrder(TreeNodePtr treePtr);
-void printArray(int arr[], int size);
+void printArray(int arr[], int size, int currentIndex);
 void printByLevel(TreeNodePtr treePtr);
 int findDepth(TreeNodePtr treePtr);
 int findSpace(int n);
@@ -49,9 +49,8 @@ void treeSort(int arr[], int size)
    for (i = 0; i < size; i++)
    {
       system("cls");
-      data = arr[i];
-      insert(&rootPtr, data); //call function to insert
-      printArray(arr, size);
+      insert(&rootPtr, arr[i]); //call function to insert
+      printArray(arr, size, i);
       printf("\nThe Tree Diagram :\n");
       printByLevel(rootPtr);
       getch();
@@ -60,13 +59,19 @@ void treeSort(int arr[], int size)
    traverseInOrder(rootPtr);
 }
 
-void printArray(int arr[], int size)
+void printArray(int arr[], int size, int currentIndex)
 {
    int i;
    for (i = 0; i < size; i++)
    {
-
-      printf("%d  ", arr[i]);
+      if (i == currentIndex)
+      {
+         printf("\033[1;32m%d  \033[0m", arr[i]);
+      }
+      else
+      {
+         printf("%d  ", arr[i]);
+      }
    }
 }
 
@@ -189,7 +194,7 @@ void printByLevel(TreeNodePtr treePtr)
          nullNode++;
          if (nullNode == 1)
          {
-            printf("\n");
+            printf("\n\n");
             printSpace(findSpace(depth - level));
          }
       }

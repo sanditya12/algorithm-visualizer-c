@@ -26,18 +26,50 @@ void delay(float numberOfSeconds);
 /*function prototype*/
 int main()
 {
-   int size;
-   printf("\nEnter Size of Array : ");
-   scanf("%d", &size);
-   int *array = (int *)malloc(size * sizeof(int));
-   checkErrMalloc(array);
-
-   generateArray(&array, size);
-   treeSort(array, size);
+   int size = 1;
+   while (size != 0)
+   {
+      system("cls");
+      printf("SORTING VISUALIZER\nEnter Size of Array (Enter 0 to Exit Program) : ");
+      scanf("%d", &size);
+      int *array = (int *)malloc(size * sizeof(int));
+      generateArray(&array, size);
+      checkErrMalloc(array);
+      int opt = 1;
+      while (opt != 0)
+      {
+         system("cls");
+         printf("Select Which Sorting Algortihm To Visualize :\n[1] Bubble Sort\n[2] Insertion Sort\n[3] Quick Sort\n[4] Tree Sort\n\n[ 0] Generate New Array\n[-1] Exit Program\n");
+         scanf("%d", &opt);
+         switch (opt)
+         {
+         case -1:
+            size = 0;
+            opt = 0;
+            break;
+         case 0:
+            opt = 0;
+            break;
+         case 1:
+            bubbleSort(array, size);
+            break;
+         case 2:
+            insertionSort(array, size);
+            break;
+         case 3:
+            printf("\nQuick Sort is Not Available for Now");
+            break;
+         case 4:
+            treeSort(array, size);
+            break;
+         default:
+            break;
+         }
+      }
+   }
    // insertionSort(array, size);
    // bubbleSort(array, size);
    // quickSort(array, size - 1, 0, size);
-
    return 0;
 }
 
@@ -148,21 +180,21 @@ void insertionSort(int arr[], int size)
       key = arr[i];
       j = i - 1;
       system("cls");
+      indices.redPos = -1;
+      indices.greenPos = i;
+      printInsertionSort(arr, size, &indices);
       while (j >= 0 && arr[j] > key)
       {
-
-         indices.greenPos = i;
-         indices.redPos = j;
-         printInsertionSort(arr, size, &indices);
          system("cls");
+         indices.redPos = j;
          swap(&arr[j + 1], &arr[j]);
          j = j - 1;
+         printInsertionSort(arr, size, &indices);
       }
-      // indices.redPos = i;
-      indices.redPos = j;
-
-      printInsertionSort(arr, size, &indices);
    }
+   system("cls");
+   indices.greenPos = -1;
+   printInsertionSort(arr, size, &indices);
 }
 
 void printInsertionSort(int arr[], int size, Color *indices)
@@ -171,8 +203,16 @@ void printInsertionSort(int arr[], int size, Color *indices)
    for (i = 0; i < size; i++)
    {
       addColor(indices, i);
-      printBar(arr[i]);
-      printf("\033[0m");
+      if (indices->greenPos == -1)
+      {
+         printf("\033[1;32m");
+         printBar(arr[i]);
+      }
+      else
+      {
+         printBar(arr[i]);
+         printf("\033[0m");
+      }
    }
    printf("\033[0m");
    printf("\nPress Anything to Continue");
