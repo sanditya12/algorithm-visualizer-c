@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
+#include "treeSort.h"
 
 typedef struct color
 {
@@ -28,14 +29,14 @@ int main()
    int size;
    printf("\nEnter Size of Array : ");
    scanf("%d", &size);
-
    int *array = (int *)malloc(size * sizeof(int));
    checkErrMalloc(array);
 
    generateArray(&array, size);
+   treeSort(array, size);
    // insertionSort(array, size);
    // bubbleSort(array, size);
-   quickSort(array, size - 1, 0, size);
+   // quickSort(array, size - 1, 0, size);
 
    return 0;
 }
@@ -120,7 +121,6 @@ void bubbleSort(int arr[], int size)
 
 void printBubbleSort(int *arr, int size, Color *Indices)
 {
-
    int i; /*counter*/
    for (i = 0; i < size; i++)
    {
@@ -170,7 +170,6 @@ void printInsertionSort(int arr[], int size, Color *indices)
    int i, j;
    for (i = 0; i < size; i++)
    {
-
       addColor(indices, i);
       printBar(arr[i]);
       printf("\033[0m");
