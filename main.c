@@ -2,26 +2,15 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <time.h>
+#include "color.h"
+#include "bubbleSort.h"
+#include "insertionSort.h"
 #include "treeSort.h"
 
-typedef struct color
-{
-   int redPos;
-   int greenPos;
-   int bluePos;
-} Color;
-
-void quickSort(int arr[], int high, int low, int size);
-void printQuickSort(int arr[], int size);
 void printBar(int value);
 void generateArray(int **arr, int size);
 void checkErrMalloc(int *ptr);
-void printBubbleSort(int *arr, int size, Color *Indices);
 void swap(int *n1, int *n2);
-void bubbleSort(int arr[], int size);
-void insertionSort(int arr[], int size);
-void printInsertionSort(int arr[], int size, Color *indices);
-void addColor(Color *Indices, int index);
 void delay(float numberOfSeconds);
 /*function prototype*/
 int main()
@@ -68,9 +57,6 @@ int main()
       }
       free(array);
    }
-   // insertionSort(array, size);
-   // bubbleSort(array, size);
-   // quickSort(array, size - 1, 0, size);
    return 0;
 }
 
@@ -90,151 +76,42 @@ void generateArray(int **arrPtr, int size)
    getch();
 }
 
-void quickSort(int arr[], int high, int low, int size)
-{
-   int i;
-   int pivot = arr[high];
-   int swapIndex = low - 1;
-   system("cls");
-   if (low < high)
-   {
-      for (i = low; i < high; i++)
-      {
-         if (arr[i] <= pivot)
-         {
-            swapIndex++;
-            swap(&arr[i], &arr[swapIndex]);
-            printQuickSort(arr, size);
-            system("cls");
-         }
-      }
-      swap(&arr[high], &arr[swapIndex + 1]);
-      printQuickSort(arr, size);
-      quickSort(arr, swapIndex, low, size);
-      quickSort(arr, high, swapIndex + 2, size);
-   }
-}
-void printQuickSort(int arr[], int size)
-{
-   int i, j;
-   for (i = 0; i < size; i++)
-   {
-      printBar(arr[i]);
-      printf("\033[0m");
-   }
-   printf("\033[0m");
-   printf("\nPress Anything to Continue");
-   getch();
-}
-
-void bubbleSort(int arr[], int size)
-{
-   system("cls");
-   int i, j;
-   Color indices;
-   for (i = 0; i < size - 1; i++)
-   {
-      for (j = 0; j < size - 1 - i; j++)
-      {
-         indices.bluePos = j;
-         indices.greenPos = size - i == 2 ? 0 : size - i;
-         printf("\nindices.greenPos = %d, i = %d\n", indices.greenPos, i);
-         printBubbleSort(arr, size, &indices);
-         indices.redPos = -1;
-         system("cls");
-         if (arr[j] > arr[j + 1])
-         {
-            swap(&arr[j], &arr[j + 1]);
-            indices.redPos = j;
-         }
-      }
-   }
-   printBubbleSort(arr, size, &indices);
-}
-
-void printBubbleSort(int *arr, int size, Color *Indices)
-{
-   int i; /*counter*/
-   for (i = 0; i < size; i++)
-   {
-      addColor(Indices, i);
-      printBar(arr[i]);
-      if (i < Indices->greenPos)
-      {
-         printf("\033[0m");
-      }
-   }
-   printf("\033[0m");
-   printf("\nPress Anything to Continue");
-   getch();
-   // delay(((float)3) / size);
-}
-
-void insertionSort(int arr[], int size)
-{
-   int i, j;
-   int key;
-   // printf("%d   %d\n", arr[low], arr[p]);
-   Color indices;
-   for (i = 1; i < size; i++)
-   {
-      key = arr[i];
-      j = i - 1;
-      system("cls");
-      indices.redPos = -1;
-      indices.greenPos = i;
-      printInsertionSort(arr, size, &indices);
-      while (j >= 0 && arr[j] > key)
-      {
-         system("cls");
-         indices.redPos = j;
-         swap(&arr[j + 1], &arr[j]);
-         j = j - 1;
-         printInsertionSort(arr, size, &indices);
-      }
-   }
-   system("cls");
-   indices.greenPos = -1;
-   printInsertionSort(arr, size, &indices);
-}
-
-void printInsertionSort(int arr[], int size, Color *indices)
-{
-   int i, j;
-   for (i = 0; i < size; i++)
-   {
-      addColor(indices, i);
-      if (indices->greenPos == -1)
-      {
-         printf("\033[1;32m");
-         printBar(arr[i]);
-      }
-      else
-      {
-         printBar(arr[i]);
-         printf("\033[0m");
-      }
-   }
-   printf("\033[0m");
-   printf("\nPress Anything to Continue");
-   getch();
-}
-
-void addColor(Color *Indices, int index)
-{
-   if (index == Indices->redPos)
-   {
-      printf("\033[1;31m");
-   }
-   if (index == Indices->bluePos)
-   {
-      printf("\033[1;34m");
-   }
-   if (index == Indices->greenPos)
-   {
-      printf("\033[1;32m");
-   }
-}
+// void quickSort(int arr[], int high, int low, int size)
+// {
+//    int i;
+//    int pivot = arr[high];
+//    int swapIndex = low - 1;
+//    system("cls");
+//    if (low < high)
+//    {
+//       for (i = low; i < high; i++)
+//       {
+//          if (arr[i] <= pivot)
+//          {
+//             swapIndex++;
+//             swap(&arr[i], &arr[swapIndex]);
+//             printQuickSort(arr, size);
+//             system("cls");
+//          }
+//       }
+//       swap(&arr[high], &arr[swapIndex + 1]);
+//       printQuickSort(arr, size);
+//       quickSort(arr, swapIndex, low, size);
+//       quickSort(arr, high, swapIndex + 2, size);
+//    }
+// }
+// void printQuickSort(int arr[], int size)
+// {
+//    int i, j;
+//    for (i = 0; i < size; i++)
+//    {
+//       printBar(arr[i]);
+//       printf("\033[0m");
+//    }
+//    printf("\033[0m");
+//    printf("\nPress Anything to Continue");
+//    getch();
+// }
 
 void printBar(int value)
 {

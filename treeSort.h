@@ -58,7 +58,7 @@ void treeSort(int arr[], int size)
    }
    printf("Using InOrder Traversal, the Sorted Array is,\n");
    traverseInOrder(rootPtr);
-   printf("\nPress Anything to Continue");
+   printf("\n\n\nPress Anything to Continue");
    getch();
 }
 
