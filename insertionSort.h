@@ -5,10 +5,7 @@
 void insertionSort(int arr[], int size);
 void printInsertionSort(int arr[], int size, Color *indices);
 void printBar(int value);
-void generateArray(int **arr, int size);
-void checkErrMalloc(int *ptr);
 void swap(int *n1, int *n2);
-void delay(float numberOfSeconds);
 
 void insertionSort(int arr[], int size)
 {

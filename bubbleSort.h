@@ -5,8 +5,6 @@
 void printBubbleSort(int *arr, int size, Color *Indices);
 void bubbleSort(int arr[], int size);
 void printBar(int value);
-void generateArray(int **arr, int size);
-void checkErrMalloc(int *ptr);
 void swap(int *n1, int *n2);
 void delay(float numberOfSeconds);
 

@@ -6,6 +6,7 @@
 #include "bubbleSort.h"
 #include "insertionSort.h"
 #include "treeSort.h"
+#include "mergeSort.h"
 
 void printBar(int value);
 void generateArray(int **arr, int size);
@@ -16,10 +17,10 @@ void delay(float numberOfSeconds);
 int main()
 {
    int size = 1;
-   while (size != 0)
+   while (size != -1)
    {
       system("cls");
-      printf("SORTING VISUALIZER\nEnter Size of Array (Enter 0 to Exit Program) : ");
+      printf("SORTING VISUALIZER\nfor better experience, please enlarge this window size!\n\nEnter Size of Array (Enter -1 to Exit Program) : ");
       scanf("%d", &size);
       int *array = (int *)malloc(size * sizeof(int));
       generateArray(&array, size);
@@ -28,12 +29,12 @@ int main()
       while (opt != 0)
       {
          system("cls");
-         printf("Select Which Sorting Algortihm To Visualize :\n[1] Bubble Sort\n[2] Insertion Sort\n[3] Quick Sort\n[4] Tree Sort\n\n[ 0] Generate New Array\n[-1] Exit Program\n");
+         printf("Select Which Sorting Algortihm To Visualize :\n[1] Bubble Sort\n[2] Insertion Sort\n[3] Tree Sort\n[4] Merge Sort\n\n[ 0] Generate New Array\n[-1] Exit Program\n");
          scanf("%d", &opt);
          switch (opt)
          {
          case -1:
-            size = 0;
+            size = -1;
             opt = 0;
             break;
          case 0:
@@ -46,11 +47,11 @@ int main()
             insertionSort(array, size);
             break;
          case 3:
-            printf("\nQuick Sort is Not Available for Now");
-            break;
-         case 4:
             treeSort(array, size);
             break;
+         case 4:
+            mergeSort(array, 0, size - 1, size);
+
          default:
             break;
          }
@@ -75,43 +76,6 @@ void generateArray(int **arrPtr, int size)
    printf("\nPress Anything to Continue");
    getch();
 }
-
-// void quickSort(int arr[], int high, int low, int size)
-// {
-//    int i;
-//    int pivot = arr[high];
-//    int swapIndex = low - 1;
-//    system("cls");
-//    if (low < high)
-//    {
-//       for (i = low; i < high; i++)
-//       {
-//          if (arr[i] <= pivot)
-//          {
-//             swapIndex++;
-//             swap(&arr[i], &arr[swapIndex]);
-//             printQuickSort(arr, size);
-//             system("cls");
-//          }
-//       }
-//       swap(&arr[high], &arr[swapIndex + 1]);
-//       printQuickSort(arr, size);
-//       quickSort(arr, swapIndex, low, size);
-//       quickSort(arr, high, swapIndex + 2, size);
-//    }
-// }
-// void printQuickSort(int arr[], int size)
-// {
-//    int i, j;
-//    for (i = 0; i < size; i++)
-//    {
-//       printBar(arr[i]);
-//       printf("\033[0m");
-//    }
-//    printf("\033[0m");
-//    printf("\nPress Anything to Continue");
-//    getch();
-// }
 
 void printBar(int value)
 {
@@ -139,16 +103,4 @@ void checkErrMalloc(int *ptr)
       printf("\nERROR! MEMORY CANNOT BE ALLOCATED");
       exit(0);
    }
-}
-void delay(float numberOfSeconds) //function to delay or take time
-{
-   // Converting time into milli_seconds
-   int milliSeconds = 1000 * numberOfSeconds;
-
-   // Storing start time
-   clock_t startTime = clock();
-
-   // looping till required time is not achieved
-   while (clock() < startTime + milliSeconds)
-      ;
 }
