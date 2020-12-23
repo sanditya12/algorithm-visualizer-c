@@ -35,33 +35,34 @@ int findSpace(int n);
 int power(int num, int x);
 TreeNodePtr dequeue(QueueNodePtr *headPtr, QueueNodePtr *tailPtr);
 
-//function prototypes
-
 void treeSort(int arr[], int size)
 {
-   TreeNodePtr rootPtr = NULL; //declare root pointer
-   int data;                   //decare character variable
+   TreeNodePtr rootPtr = NULL; /*declare root pointer*/
+   int data;
    int depth;
    int i;
 
-   printf("[BINARY TREE]"); //title
+   printf("[BINARY TREE]");
 
    for (i = 0; i < size; i++)
    {
       system("cls");
-      insert(&rootPtr, arr[i]); //call function to insert
-      printArray(arr, size, i);
+      insert(&rootPtr, arr[i]); /*insert to binary tree*/
+
+      printArray(arr, size, i); /*print unsorted array*/
+
       printf("\nThe Tree Diagram :\n");
-      printByLevel(rootPtr);
+      printByLevel(rootPtr); /*visualize the tree diagram*/
       printf("\nPress Anything to Continue");
       getch();
    }
    printf("Using InOrder Traversal, the Sorted Array is,\n");
-   traverseInOrder(rootPtr);
+   traverseInOrder(rootPtr); /*traverse in order to sort*/
    printf("\n\n\nPress Anything to Continue");
    getch();
 }
 
+/*print the unsorted array and show the current element that is inserted into the binary tree by using color*/
 void printArray(int arr[], int size, int currentIndex)
 {
    int i;
@@ -78,44 +79,43 @@ void printArray(int arr[], int size, int currentIndex)
    }
 }
 
-//insert node of tree and find place to insert
+//binary tree
 void insert(TreeNodePtr *treePtr, int data)
 {
-   //check if node is empty
+
    if (*treePtr == NULL)
    {
-      //allocate memory
+
       *treePtr = malloc(sizeof(TreeNode));
 
-      //if memory cannot be allocated
       if (*treePtr == NULL)
       {
          printf("\n%c Cannot be Inserted into the Tree, Because There Are No Memory Available\n");
       }
       else
       {
-         //insert Data
+
          (*treePtr)->data = data;
          (*treePtr)->leftPtr = NULL;
          (*treePtr)->rightPtr = NULL;
       }
    }
-   else //node is not NULL, insert data to the left/right node
+   else
    {
-      if (data < (*treePtr)->data) //if data is lower, it will be placed on the left
+      if (data < (*treePtr)->data)
       {
          insert(&(*treePtr)->leftPtr, data);
       }
-      else if (data >= (*treePtr)->data) //if data is lower, it will be placed on the right
+      else if (data >= (*treePtr)->data) /*in this tree, the duplicates is placed on the right side of the root*/
       {
          insert(&(*treePtr)->rightPtr, data);
       }
    }
 }
 
-//used to push or enqueue the queue of nodePtr
+//enqueue
 void enqueue(QueueNodePtr *headPtr, QueueNodePtr *tailPtr, TreeNodePtr data)
-{
+{ /*used to enqueue*/
    QueueNodePtr tempPtr;
 
    tempPtr = malloc(sizeof(QueueNode));
@@ -141,9 +141,9 @@ void enqueue(QueueNodePtr *headPtr, QueueNodePtr *tailPtr, TreeNodePtr data)
    }
 }
 
-//used to pop or dequeue from the queue of nodePtr
+//queue
 TreeNodePtr dequeue(QueueNodePtr *headPtr, QueueNodePtr *tailPtr)
-{
+{ /*used to dequeue*/
    QueueNodePtr tempPtr;
 
    TreeNodePtr data = (*headPtr)->node;
@@ -159,38 +159,35 @@ TreeNodePtr dequeue(QueueNodePtr *headPtr, QueueNodePtr *tailPtr)
    return data; //return the nodeptr
 }
 
+/*printByLevel function is used to print or visualize the binary tree in the terminal */
 void printByLevel(TreeNodePtr treePtr)
 {
    int depth = findDepth(treePtr); //find the depth of tree
 
    int nullNode = 0, level = 0;
-   //nullNode is used to break the loop when it dequeue two consecutive NULL nodeptr
-   //level is used to describe the current depth
+   /*nullNode is used to break the loop when it dequeue two consecutive NULL nodeptr
+   level is used to describe the current depth*/
 
-   //initialize queue
    QueueNodePtr headPtr = NULL;
    QueueNodePtr tailPtr = NULL;
    TreeNodePtr current;
    TreeNodePtr tempPtr;
 
-   //create dummy node
-   TreeNodePtr zero = malloc(sizeof(TreeNode));
+   TreeNodePtr zero = malloc(sizeof(TreeNode)); /*inirialize dummy node*/
    zero->data = 0;
    zero->leftPtr = NULL;
    zero->rightPtr = NULL;
 
-   //initial enqueue
    enqueue(&headPtr, &tailPtr, treePtr);
    enqueue(&headPtr, &tailPtr, NULL);
 
-   printSpace(findSpace(depth - level)); //print initial space for first root
+   printSpace(findSpace(depth - level));
 
-   while (nullNode < 2) //loop until two consecutive NULL is dequeued
+   while (nullNode < 2)
    {
       current = dequeue(&headPtr, &tailPtr);
-      //the current node ptr that is dequeued from the queue
 
-      if (current == NULL) //indicate current level is complete
+      if (current == NULL) /*if the dequeue ptr is the delimiter, indicates new level*/
       {
          enqueue(&headPtr, &tailPtr, NULL);
          level++;
@@ -201,42 +198,40 @@ void printByLevel(TreeNodePtr treePtr)
             printSpace(findSpace(depth - level));
          }
       }
-      else //enequeue the left and right ptr of current node
+      else
       {
          nullNode = 0;
-         if (current->leftPtr != NULL)
+         if (current->leftPtr != NULL) /*enqueue the right pointer of a root*/
          {
             enqueue(&headPtr, &tailPtr, current->leftPtr);
          }
-         else if (depth - level > 0)
-         { //add dummy node ptr to fill the spaces
+         else if (depth - level > 0) /*if the node is empty, fill with dummy node*/
+         {
             enqueue(&headPtr, &tailPtr, zero);
          }
-         if (current->rightPtr != NULL)
+         if (current->rightPtr != NULL) /*enqueue the right pointer of a root*/
          {
             enqueue(&headPtr, &tailPtr, current->rightPtr);
          }
-         else if (depth - level > 0)
-         { //add dummy node ptr to fill the spaces
+         else if (depth - level > 0) /*if the node is empty, fill with dummy node*/
+         {
             enqueue(&headPtr, &tailPtr, zero);
          }
-         if (current->data != 0)
+         if (current->data != 0) /*doesn't print dummy node*/
          {
             printf("%d", current->data);
-            //print data
+
             printSpace(findSpace(depth - level + 1));
-            //print enough space
          }
          else
          {
             printSpace(findSpace(depth - level + 1) + 1);
-            //print enough space
          }
       }
    }
 }
 
-//findDepth function is used to find the depth of the tree, return how many levels
+/*findDepth function is used to find the depth of the tree, return how many levels*/
 int findDepth(TreeNodePtr treePtr)
 {
    if (treePtr == NULL)
@@ -258,14 +253,15 @@ int findDepth(TreeNodePtr treePtr)
    }
 }
 
+/*find the right amount of space to print a node of the tree*/
 int findSpace(int n)
 {
-   //find appropriate space based on the pattern
    return ((power(2, n) - 1));
 }
 
+/*function to power an integer*/
 int power(int num, int x)
-{ //power function
+{
    int i;
    int total = 1;
    for (i = 0; i < x; i++)
@@ -275,7 +271,7 @@ int power(int num, int x)
    return total;
 }
 
-//print spaces
+/*print certain amount of space*/
 void printSpace(int amount)
 {
    int i;
@@ -285,11 +281,11 @@ void printSpace(int amount)
    }
 }
 
+/*traverse tree in order*/
 void traverseInOrder(TreeNodePtr treePtr)
 {
    if (treePtr != NULL)
    {
-      //Inorder (Left, Root, Right)
       traverseInOrder(treePtr->leftPtr);
       printf("%d  ", treePtr->data);
       traverseInOrder(treePtr->rightPtr);

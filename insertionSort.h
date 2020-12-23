@@ -7,11 +7,11 @@ void printInsertionSort(int arr[], int size, Color *indices);
 void printBar(int value);
 void swap(int *n1, int *n2);
 
+//sorting
 void insertionSort(int arr[], int size)
 {
    int i, j;
    int key;
-   // printf("%d   %d\n", arr[low], arr[p]);
    Color indices;
    for (i = 1; i < size; i++)
    {
@@ -19,12 +19,13 @@ void insertionSort(int arr[], int size)
       j = i - 1;
       system("cls");
       indices.redPos = -1;
-      indices.greenPos = i;
+      indices.greenPos = i; /*green indicate the key value position*/
       printInsertionSort(arr, size, &indices);
       while (j >= 0 && arr[j] > key)
       {
          system("cls");
-         indices.redPos = j;
+         indices.redPos = j; /*red indicate the which value is currently compared with the key value*/
+
          swap(&arr[j + 1], &arr[j]);
          j = j - 1;
          printInsertionSort(arr, size, &indices);
@@ -35,6 +36,7 @@ void insertionSort(int arr[], int size)
    printInsertionSort(arr, size, &indices);
 }
 
+/*function used to print or visualize the insertion sort Algorithm*/
 void printInsertionSort(int arr[], int size, Color *indices)
 {
    int i, j;

@@ -1,10 +1,12 @@
+//Struct
 typedef struct color
-{
+{ /*the struct is used to reduce the amount of parameter needed*/
    int redPos;
    int greenPos;
    int bluePos;
 } Color;
 
+/*function to add color into a certain index in the visualized array*/
 void addColor(Color *Indices, int index)
 {
    if (index == Indices->redPos)

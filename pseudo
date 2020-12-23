@@ -1,0 +1,85 @@
+bubbleSort function
+   for i < size of array - 1
+      for j < size of array - 1 - i
+         assign color struct (bluePos = j, greenPos = size - i /*green indicates sorted*/)
+         clear screen
+         call printBubbleSort function
+         if arr[j]>arr[j+1]
+            swap arr[j] and arr[j+1]
+            assign color redPos = j /*indicate there is swap*/
+         
+   call printBubbleSort function
+
+printBubbleSort function
+   for all element of the array
+      add Color
+      visualize elemenent of array by calling printBar function
+      if i < greenPos
+         {print white color /*to print all index above greenPos to be green*/}
+   press anything to continue using getch
+
+
+insertionSort function
+   for i - 1 ; i < size; i++
+      assign key as the value of arr [i]
+      j = i - 1
+      assign greenPos to indicate the key value position
+      clear screen
+      call printInsertionSort function
+      loop until arr[j] < key or j < 0
+         assign redPos to indicate the which value is currently compared with the key value
+         swap arr[j] with the next element
+         decrement j
+         clear screen
+         printInsertionSort
+
+   printInsertionSort
+
+printInsertionSort
+   for all element of the array
+
+      visualize elemenent of array by calling printBar function
+      color all element to green in the end to indicate successful sort 
+   press anything to continue using getch
+
+
+insert all elements of array to a binary tree
+
+visualize tree by using queue data structure
+
+enqueue root of the tree and a delimiter or NULL value to the queue
+
+dequeue queue
+if dequeue return NULL
+   indicate new level / depth
+   print spaces by using the formula
+      number of spaces = n^2 - 1
+      n is the level - 1
+   enqueue NULL
+else
+   enqueue leftPtr and rightPtr
+   print what dequeue return
+   print spaces by using the formula
+      number of spaces = n^2 - 1
+      n is the level 
+
+traverse binary tree InOrder
+
+
+
+MergeSort(arr, left, right,size):
+    if left > right 
+        return
+    mid = (left+right)/2
+    mergeSort(arr, left, mid,size)
+    mergeSort(arr, mid+1, right,size)
+    merge(arr, left, mid, right,size)
+end
+
+merge(arr,left, mid , right, size)
+      for (i = 0; i < n1; i++)
+   {
+      L[i] = arr[l + i];
+   }
+   for (j = 0; j < n2; j++)
+      R[j] = arr[m + 1 + j];

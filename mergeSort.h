@@ -7,6 +7,7 @@ void printBar(int value);
 void swap(int *n1, int *n2);
 void delay(float numberOfSeconds);
 
+/*function used to print or visualize the mergesort Algorithm*/
 void printMergeSort(int arr[], int size, Color indices)
 {
    system("cls");
@@ -41,12 +42,14 @@ void merge(int arr[], int l, int m, int r, int size)
       L[i] = arr[l + i];
    }
    for (j = 0; j < n2; j++)
+   {
       R[j] = arr[m + 1 + j];
+   }
 
    /* Merge the temp arrays back into arr[l..r]*/
-   i = 0; // Initial index of first subarray
-   j = 0; // Initial index of second subarray
-   k = l; // Initial index of merged subarray
+   i = 0;
+   j = 0;
+   k = l;
    while (i < n1 && j < n2)
    {
       indices.greenPos = k;
@@ -87,15 +90,14 @@ void merge(int arr[], int l, int m, int r, int size)
    }
 }
 
+//sorting
 void mergeSort(int arr[], int l, int r, int size)
 {
    if (l < r)
    {
-      // Same as (l+r)/2, but avoids overflow for
-      // large l and h
+
       int m = l + (r - l) / 2;
 
-      // Sort first and second halves
       mergeSort(arr, l, m, size);
       mergeSort(arr, m + 1, r, size);
       merge(arr, l, m, r, size);
